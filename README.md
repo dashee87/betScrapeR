@@ -30,18 +30,25 @@ Alternatively, you can copy the R files onto your computer and run them all loca
 
 ### Required Packages
 
-Two additional R packages are required.
+[abettor](https://github.com/phillc73/abettor) is a package to perform calls on the Betfair exchange via its API. We will use [abettor](https://github.com/phillc73/abettor) to retrieve exchange data. Please consult its extensive documentation, if you want design a trading strategy based on data derived from `betScrapeR`. As [abettor](https://github.com/phillc73/abettor) is not supported by CRAN, you'll need to install it seperately. Similar to before, just install it directly from RStudio:
+
+Install from GitLab
 
 ``` r
-# Requires a minimum of version 0.1.5
-require("abettor")
-# Requires a minimum of version 0.9.12
-require("rvest")
+# install.packages("devtools")
+devtools::install_git("https://gitlab.com/phillc73/abettor.git")
+library("abettor")
 ```
 
-[abettor](https://github.com/phillc73/abettor) is a package to perform calls on the Betfair exchange via its API. We will use [abettor](https://github.com/phillc73/abettor) to retrieve exchange data. Please consult its extensive documentation, if you want design a trading strategy based on data derived from `betScrapeR`.
+Or install from GitHub if you prefer (identical mirror of GitLab)
 
-The exchange data is combined with the corresponding bookmakers' odds, which are scraped directly from odds comparison websites using [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf). [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf) works particularly well in combination with [SelectorGadget](https://cran.r-project.org/web/packages/rvest/rvest.pdf), a handy internet browser extension that allows you to easily extract css tags from websites.
+``` r
+# install.packages("devtools")
+devtools::install_github("phillc73/abettor")
+library("abettor")
+```
+
+This exchange data is combined with the corresponding bookmakers' odds, which are scraped directly from odds comparison websites using [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf). [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf) works particularly well in combination with [SelectorGadget](https://cran.r-project.org/web/packages/rvest/rvest.pdf), a handy internet browser extension that allows you to easily extract css tags from websites. As it's supported by CRAN, [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf) will be automatically installed with `betScrapeR` (if it's not already installed). So it's just [abettor](https://github.com/phillc73/abettor) that you need to install manually.
 
 ### Tutorial
 

@@ -10,6 +10,5 @@ BugReports: http://www.github.com/dashee87/betScrapeR/issues
 Maintainer: David Sheehan <davidfsheehan87@gmail.com>
 LazyData: true
 Imports:
-    abettor (>= 0.1.5),
     rvest (>= 0.3.0)
 RoxygenNote: 5.0.1
