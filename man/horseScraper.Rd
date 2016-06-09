@@ -4,7 +4,7 @@
 \alias{horseScraper}
 \title{Visualise current betting odds for a specific horse race}
 \usage{
-horseScraper(race, suppress = FALSE, numAttempts = 5)
+horseScraper(race, suppress = FALSE, numAttempts = 5, sleepTime = 0)
 }
 \arguments{
 \item{race}{dataframe (output from abettor:istMarketCatalogue call).
@@ -15,7 +15,7 @@ Required. No default.}
 before the start). Setting this parameter to FALSE suppresses this warning.
 Default is TRUE. Optional.}
 
-\item{numAttempts}{integer. Specifies the number of attempts before aborting 
+\item{numAttempts}{integer. Specifies the number of attempts before aborting
 this particular scraping attempt (see \code{\link{scrapePage}}). Optional.
 Default is 5.}
 
@@ -49,10 +49,10 @@ races in Australia and New Zealand.
 \examples{
 \dontrun{
 
-# Make sure that loginBF has been called, as this function requires 
+# Make sure that loginBF has been called, as this function requires
 a valid session token.
 
-# Only one race can be passed to function at a time. Let's have a look at the 
+# Only one race can be passed to function at a time. Let's have a look at the
 current odds for an upcoming horse race. To do so, we call listMarketCatalogue
 
 HRaces=listMarketCatalogue(eventTypeIds = "7",marketTypeCodes = "WIN")

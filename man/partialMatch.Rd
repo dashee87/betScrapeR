@@ -4,7 +4,7 @@
 \alias{partialMatch}
 \title{Identify similiar strings by matching words within the strings}
 \usage{
-partialMatch(names1, names2)
+partialMatch(set1, set2)
 }
 \arguments{
 \item{set1}{vector<string>. A set of strings. Required. No default.}
@@ -29,7 +29,7 @@ which it shares the most words is returned as its match.
 \examples{
 \dontrun{
 
-# Trivial example of partialMatch, as each string in the first set has a perfect 
+# Trivial example of partialMatch, as each string in the first set has a perfect
 match in the second set (in these scenarios, partialMatch replicates the base function match)
 
 partialMatch(c("Hello World","Buddy Holly","Marie Curie"),c("Buddy Holly","Marie Curie","Hello World"))
@@ -42,7 +42,7 @@ partialMatch(c("Barack Obama","Hello World","Buddy Holly","Marie Curie"),c("Budd
 
 partialMatch(c("Barack Obama","Hi World","Buddy Holly","Marie Sklodowska Curie"),c("Buddy Holly","Marie Curie","Hello World"))
 
- # In the event of multiple strings in set1 partially matching the same string 
+ # In the event of multiple strings in set1 partially matching the same string
  in set2, only the string with the best match returns a position (the rest return NA)
 
 partialMatch(c("This is not a test","Start the test"),c("This is a test"))
