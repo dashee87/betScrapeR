@@ -32,7 +32,8 @@ fracToDec("5/4")
 
 sapply(c("5/4","8/11","4/6","5","22/2"),fracToDec)
 
-# Finally, sometimes the odds are not provided, or at least not in fractional form. To account for this, specific numbers are returned.
+# Finally, sometimes the odds are not provided, or at least not in fractional form.
+To account for this, specific numbers are returned.
 
 sapply(c("EVS","SP",""),fracToDec)
 

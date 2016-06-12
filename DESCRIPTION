@@ -3,7 +3,7 @@ Title: R package to scrape live sports betting odds
 Version: 0.0.1
 Authors@R: person("David", "Sheehan", email = "davidfsheehan87@gmail.com", role = c("aut", "cre"))
 Description: R package that combines exchange data from the Betfair API with web scraped odds from various bookmakers. This information can then inform and improve trading strategies.
-Depends: R (>= 3.2.3)
+Depends: R (>= 3.1.1)
 License: MIT + file LICENSE
 URL: https://github.com/dashee87/betScrapeR
 BugReports: http://www.github.com/dashee87/betScrapeR/issues
@@ -11,4 +11,8 @@ Maintainer: David Sheehan <davidfsheehan87@gmail.com>
 LazyData: true
 Imports:
     rvest (>= 0.3.0)
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1

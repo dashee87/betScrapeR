@@ -1,0 +1,127 @@
+---
+title: "betScrapeR example"
+author: "David Sheehan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{betScrapeR example}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+How to use betScraper
+=======
+
+This page will describe how to use `betScrapeR`. I will try to explain each step in detail, though some previous knowledge of R is required. If you've never used R before, you can download it [here](https://cran.rstudio.com/). Following that, I'd recommend installing [RStudio](https://www.rstudio.com/), an integrated development environment (IDE) that is much more intuitive and efficient than the base R version.
+
+## Before We start
+
+If you've already succesfully installed `betScraper` and the [abettor](https://github.com/phillc73/abettor) package, you can skip this section.
+
+Okay, so we have R installed on our computer. We're going to download `betScrapeR` directly from our R console. The ability to do so relies on a package called `devtools`. We'll first need to install that, by running this code:
+
+```r
+install.packages("devtools")
+```
+
+If that worked, we can install `betScrapeR` with either of the following codes:
+
+```r
+# install from Gitlab
+devtools::install_git("https://gitlab.com/dashee87/betScrapeR.git")
+```
+
+```r
+# install from Github
+devtools::install_github("dashee87/betScrapeR")
+```
+
+`betScrapeR` relies on the [rvest](https://cran.r-project.org/web/packages/rvest/rvest.pdf) and [abettor](https://github.com/phillc73/abettor) packages. The former will be automatically installed with `betScrapeR`, while the latter needs to be installed manually. Similar to before, we just install it directly from the R console:
+
+
+```r
+# install from Gitlab
+devtools::install_git("https://gitlab.com/phillc73/abettor.git")
+```
+
+```r
+# install from Github
+devtools::install_github("phillc73/abettor")
+```
+
+## Tutorial
+
+Okay, so we've successfully installed `betScrapeR` and its dependent packages. Let's see it in action. First, we need to load the package. We also load `rvest` and `abettor`.
+
+```r
+# loading packages
+library("betScrapeR")
+library("rvest")
+library("abettor")
+```
+
+We'll be performing betfair exchange API calls, so we need to login via the [abettor](https://github.com/phillc73/abettor) package. A basic knowledge of the API is needed for this package, so please consult the [abettor](https://github.com/phillc73/abettor) documentation if this part is unfamiliar to you.
+
+```r
+# logging in
+loginBF("username","password","appkey")
+```
+
+Having successfully logged onto the exchange API, we can look up the details of the upcoming horse races.
+
+```r
+# eventTypeIds: Horse Racing=7; Football/Soccer= 1; Tennis = 2;
+HRaces <- listMarketCatalogue(eventTypeIds = c("7"),
+fromDate = (format(Sys.time()+60*60, "%Y-%m-%dT%TZ")),
+marketTypeCodes = c("WIN"),marketCountries = c("GB"))
+```
+
+`HRaces` is a dataframe containg information (venue, runners names, etc) related to the upcoming British horse racing events. Note that the `fromDate` parameter means that races that are about to start will be excluded. Again, more details about these functions can be found on the [abettor](https://github.com/phillc73/abettor) documentation. Familiarise yourself with the structure of `HRaces`:
+
+```r
+ View(HRaces)
+```
+ 
+Let's focus on the next race to start from `Hraces`. Using `listMarketbook` from the `abettor` package, we could return the current price/odds for each horse in the race. By running the `horseScraper` function from  `betScrapeR`, we can combine exchange data with the corresponding odds offered by bookmakers on this race. Let's try it out:
+
+```r
+ scraped <- horseScraper(HRaces[1,])
+```
+
+We've run the function for the first race in our table of horse races and called the output of the function `scraped`. Unless an unexpected error occured, like `HRaces` before, `scraped` is a data frame. Familiarise yourself with its structure:
+
+```r
+ View(scraped)
+```
+
+Each column in `scraped` corresponds to a horse in this race. The first five rows reference exchange data, while the remaining rows consist of various bookies' odds for that horse. Please consult the `horseScraper` documentation for a more complete description of the values within this data frame.
+
+We can play around with this data frame using some basic R operations. For example, we can return all the horses that are arbs (i.e. their lays odds are lower than the odds offered by at least one bookmaker):
+
+```r
+colnames(scraped)[which(scraped[4,]<sapply(scraped[6:nrow(scraped),],max))]
+```
+
+Or we can loop through all the races in `HRaces` and print all the arbs:
+
+```r
+for(i in 1:nrow(HRaces)){
+print(paste(HRaces[i,]$event$venue,HRaces[i,]$marketStartTime))
+scraped <- horseScraper(HRaces[i,])
+print(colnames(scraped)[which(scraped[4,]<sapply(scraped[6:nrow(scraped),],max))])
+}
+```
+
+And if we're looking for arbs with Stan James specifically with more than £10 available to lay at that price on the exchange, then we could adapt the code above to print these Skybet arbs:
+
+```r
+for(i in 1:nrow(HRaces)){
+print(paste(HRaces[i,]$event$venue,HRaces[i,]$marketStartTime))
+scraped <- horseScraper(HRaces[i,])
+print(colnames(scraped)[which(scraped[4,]<scraped["Stan James",] & scraped[5,]>10)])
+}
+```
+
+## Summary
+
+This tutorial was by no means exhaustive. I've highlighted just one way you could harness `betScrapeR` (i.e. to identify horse racing arbs). Alternatively, the data frame returned from the `horseScraper` function could be utilised for more general trading strategies (e.g. to identify horses that are drifting/shortening at the bookies). How you use it is up to you. If you've had any issues/difficulties with this tutorial, then please do let me know [here](https://github.com/dashee87/betScrapeR/issues).

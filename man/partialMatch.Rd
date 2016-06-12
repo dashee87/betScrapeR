@@ -32,15 +32,18 @@ which it shares the most words is returned as its match.
 # Trivial example of partialMatch, as each string in the first set has a perfect
 match in the second set (in these scenarios, partialMatch replicates the base function match)
 
-partialMatch(c("Hello World","Buddy Holly","Marie Curie"),c("Buddy Holly","Marie Curie","Hello World"))
+partialMatch(c("Hello World","Buddy Holly","Marie Curie"),
+c("Buddy Holly","Marie Curie","Hello World"))
 
 # When a string has no match in the second set, NA is returned for that string.
 
-partialMatch(c("Barack Obama","Hello World","Buddy Holly","Marie Curie"),c("Buddy Holly","Marie Curie","Hello World"))
+partialMatch(c("Barack Obama","Hello World","Buddy Holly",
+"Marie Curie"),c("Buddy Holly","Marie Curie","Hello World"))
 
 # The benefit of partialMatch is the strings don't need to be identical to be matched
 
-partialMatch(c("Barack Obama","Hi World","Buddy Holly","Marie Sklodowska Curie"),c("Buddy Holly","Marie Curie","Hello World"))
+partialMatch(c("Barack Obama","Hi World","Buddy Holly",
+"Marie Sklodowska Curie"),c("Buddy Holly","Marie Curie","Hello World"))
 
  # In the event of multiple strings in set1 partially matching the same string
  in set2, only the string with the best match returns a position (the rest return NA)
