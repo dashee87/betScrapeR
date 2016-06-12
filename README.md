@@ -52,7 +52,7 @@ This exchange data is combined with the corresponding bookmakers' odds, which ar
 
 ### Tutorial
 
-I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/vignettes/example.Rmd).
+I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/blob/master/vignettes/example.Rmd).
 
 ### Obtain a Betfair Developer Application Key
 
