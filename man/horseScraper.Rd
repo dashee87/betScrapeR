@@ -31,6 +31,12 @@ If successful, this function will return a dataframe. The columns
   dataframe is returned. There are various reasons why an error dataframe is
   returned (race has finsihed, race is not covered by Oddschecker, etc). The
   precise reason for the failure will be outlined in the error dataframe.
+  Note that the data frame returned by this function may include non-positive
+  integers. This is to cover specials cases where the actuals couldn't be
+  scraped from Oddschecker. If SP (starting price) was listed as the price on
+  Oddschecker, this is converted to 0; -1 means that nothing was listed for
+  that race from that bookie; and -101 signifies a horse that is a
+  non-runner at Oddschecker but still available on the exchange.
 }
 \description{
 \code{horseScraper} returns the current betting odds (exchange & bookies
@@ -69,10 +75,10 @@ print(horseScraper(HRaces[i,]))
 }
 \seealso{
 \url{https://github.com/phillc73/abettor} for general information on
-making betfair API calls. This function is reliant on numerous functions from
-this package: a valid session token must be present; the input for
-horseScraper is horse race data generated from an appropriate
-listMarketCatalogue call; current exchange price data is gathered from a
-listMarketBook call within horseScraper
+  making betfair API calls. This function is reliant on numerous functions
+  from this package: a valid session token must be present; the input for
+  horseScraper is horse race data generated from an appropriate
+  listMarketCatalogue call; current exchange price data is gathered from a
+  listMarketBook call within horseScraper
 }
 

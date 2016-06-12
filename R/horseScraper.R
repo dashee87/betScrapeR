@@ -8,11 +8,11 @@
 #' races in Australia and New Zealand.
 #'
 #' @seealso \url{https://github.com/phillc73/abettor} for general information on
-#' making betfair API calls. This function is reliant on numerous functions from
-#' this package: a valid session token must be present; the input for
-#' horseScraper is horse race data generated from an appropriate
-#' listMarketCatalogue call; current exchange price data is gathered from a
-#' listMarketBook call within horseScraper
+#'   making betfair API calls. This function is reliant on numerous functions
+#'   from this package: a valid session token must be present; the input for
+#'   horseScraper is horse race data generated from an appropriate
+#'   listMarketCatalogue call; current exchange price data is gathered from a
+#'   listMarketBook call within horseScraper
 #'
 #' @param race dataframe (output from abettor:istMarketCatalogue call).
 #'   Required. No default.
@@ -37,6 +37,12 @@
 #'   dataframe is returned. There are various reasons why an error dataframe is
 #'   returned (race has finsihed, race is not covered by Oddschecker, etc). The
 #'   precise reason for the failure will be outlined in the error dataframe.
+#'   Note that the data frame returned by this function may include non-positive
+#'   integers. This is to cover specials cases where the actuals couldn't be
+#'   scraped from Oddschecker. If SP (starting price) was listed as the price on
+#'   Oddschecker, this is converted to 0; -1 means that nothing was listed for
+#'   that race from that bookie; and -101 signifies a horse that is a
+#'   non-runner at Oddschecker but still available on the exchange.
 #'
 #' @section Note on \code{race.time} variable: The API returns the event start
 #'   time in UTC. During Daylight Savings Time (DST), we need to an hour
@@ -111,11 +117,11 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
   }else{return(data.frame(error="Country not covered by OddsChecker"))}
   if(is.data.frame(page))
     return(page)
-  bookies <- html_nodes(page,".eventTableHeader aside") %>% html_text()
+  bookies <- rvest::html_nodes(page,".eventTableHeader aside") %>% rvest::html_text()
   if(length(bookies) == 0){
     return(data.frame(error="No racing data scraped- Is that race covered by OddsChecker?"))
   }
-  horse <- html_nodes(page,".nm") %>% html_text()
+  horse <- rvest::html_nodes(page,".nm") %>% rvest::html_text()
   if(length(horse) == 1){
     horse <- betfair.horses
     odds <- rep(0,length(betfair.horses)*length(bookies))
@@ -123,7 +129,7 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
     if(length(intersect(horse,betfair.horses))==0)
       return(data.frame(error="Events don't match up- No horses in common"))
     horse <- betfair.horses[partialMatch(tolower(horse[!grepl(" NR",horse)]),tolower(betfair.horses))]
-    odds <- html_nodes(page,".bc .np , .bs") %>% html_text() %>% sapply(fracToDec)}
+    odds <- rvest::html_nodes(page,".bc .np , .bs") %>% rvest::html_text() %>% sapply(fracToDec)}
 
   checker <- as.data.frame(matrix(odds,length(bookies),length(horse)))
   colnames(checker) <- horse
