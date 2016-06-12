@@ -52,7 +52,7 @@ This exchange data is combined with the corresponding bookmakers' odds, which ar
 
 ### Tutorial
 
-I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/vignettes/example.Rmd).
+I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/blob/master/vignettes/example.Rmd).
 
 ### Obtain a Betfair Developer Application Key
 
@@ -60,7 +60,7 @@ Only people with betfair application (app) keys will be able to use this package
 
 Just note that there are two types of application keys: delayed and live. The former is free but provides limited API functionality. For example, you can't place bets and market data is returned with a 1-60 second delay. In contrast, live app keys allow full functionality (place bets, market data with no delay, etc), but cost £299. I'm not too familiar with the delayed app key, as the live app key was free when I started out. If parts of the package are incomptible with a delayed app key, then please submit an [issue](https://github.com/dashee87/betScrapeR/issues). Please initially test the package with a delayed app key, bearing in mind your calls will be subject to a delay.
 
-Status
+## Status
 ------
 
 This package is under active development and is currently subject to regular updates.
