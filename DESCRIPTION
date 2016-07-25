@@ -10,7 +10,9 @@ BugReports: http://www.github.com/dashee87/betScrapeR/issues
 Maintainer: David Sheehan <davidfsheehan87@gmail.com>
 LazyData: true
 Imports:
-    rvest (>= 0.3.0)
+    rvest (>= 0.3.0),
+    DT (>= 0.1.0),
+    shinydashboard
 Suggests:
     knitr,
     rmarkdown

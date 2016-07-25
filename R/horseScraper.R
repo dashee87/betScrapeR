@@ -80,11 +80,11 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
     }
   betfair.horses <- race$runners[[1]]$runnerName
   betfair.info <- abettor::listMarketBook(marketIds=race$marketId, priceData = "EX_BEST_OFFERS")
+  if(length(betfair.info)==0)
+    return(data.frame(error="No market data returned. Invalid market ID and/or session token expired?"))
   if(betfair.info$status=="CLOSED"){
     return(data.frame(error="That market is closed",marketId=race$marketId))
   }
-  if(length(betfair.info)==0)
-    return(data.frame(error="No market data returned. Invalid market ID and/or session token expired?"))
   if(!is.null(betfair.info$message)){
     return(data.frame(data.frame(error="listMarketBook error"),betfair.info))}
   betfair.horses <- betfair.horses[match(betfair.info$runners[[1]]$selectionId,race$runners[[1]]$selectionId)]
@@ -100,24 +100,29 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
                       as.data.frame(matrix(betfair.lay,2,length(betfair.horses))))
   colnames(betfair.prices) <- betfair.horses
   row.names(betfair.prices) <- c("Selection ID","Back Price","Back Size","Lay Price","Lay Size")
+  
   if( race$event$countryCode=="GB" |  race$event$countryCode == "IE"){
-    page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",substring(race$marketStartTime,1,10),"-",gsub(" ","-",tolower(race$event$venue)),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)
+    if(as.Date(race.time)==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
+      page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime) 
+  }else{
+    page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",substring(race$marketStartTime,1,10),"-",gsub(" ","-",tolower(race$event$venue)),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
   }else if(race$event$countryCode=="FR"|race$event$countryCode=="DE"){
-    if(as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz=race$event$timezone))==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
+    if(as.Date(race.time)==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
       page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/europe/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)
-    }else{page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/europe/",substring(race$marketStartTime,1,10),"-",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
+    }else{
+      page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/europe/",substring(race$marketStartTime,1,10),"-",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
   }else if(race$event$countryCode=="US"|race$event$countryCode=="CL"){
     if(as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz=race$event$timezone))==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
       page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/americas/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)
     }else{page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/americas/",substring(race$marketStartTime,1,10),"-",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
   }else if(race$event$countryCode=="ZA"|race$event$countryCode=="SG"){
-    if(as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz=race$event$timezone))==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
+    if(as.Date(race.time)==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
       page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/world/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)
     }else{page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/world/",substring(race$marketStartTime,1,10),"-",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
   }else{return(data.frame(error="Country not covered by OddsChecker"))}
   if(is.data.frame(page))
     return(page)
-  bookies <- rvest::html_nodes(page,".eventTableHeader aside") %>% rvest::html_text()
+  bookies <- rvest::html_nodes(page,".eventTableHeader .bk-logo-click") %>%  rvest::html_attr(name = "title")
   if(length(bookies) == 0){
     return(data.frame(error="No racing data scraped- Is that race covered by OddsChecker?"))
   }
@@ -133,15 +138,7 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
 
   checker <- as.data.frame(matrix(odds,length(bookies),length(horse)))
   colnames(checker) <- horse
-  if(length(bookies)==25){
-    rownames(checker)=c("Bet365","Skybet","totesport","BoyleSports","Betfred","Sporting Bet","Bet Victor","Paddy Power","Stan James",
-                         "888","Ladbrokes","Coral","William Hill","Winner","Betfair Sportsbook","Betway","Betbright","Netbet",
-                         "Racebets","32Red","10bet","Marathon Bet","188bet","Betfair Exchange","Betdaq")
-  }else if(length(bookies)==24){
-    rownames(checker)=c("Bet365","Skybet","totesport","BoyleSports","Betfred","Sporting Bet","Bet Victor","Paddy Power","Stan James",
-                           "888","Ladbrokes","Coral","William Hill","Winner","Betfair Sportsbook","Betway","Netbet",
-                           "Racebets","32Red","10bet","Marathon Bet","188bet","Betfair Exchange","Betdaq")
-  }else{return(data.frame(error="Invalid # Bookies",number=length(bookies)))}
+  rownames(checker) <- bookies
   checker <- checker[1:(nrow(checker)-2),]
   nr.horses=betfair.horses[!betfair.horses %in% horse]
   if(length(nr.horses)!=0){
