@@ -21,6 +21,7 @@ If you've already succesfully installed `betScraper` and the [abettor](https://g
 Okay, so we have R installed on our computer. We're going to download `betScrapeR` directly from our R console. The ability to do so relies on a package called `devtools`. We'll first need to install that, by running this code:
 
 ```r
+# code preceded by a hash symbol is a comment
 install.packages("devtools")
 ```
 
@@ -67,7 +68,14 @@ We'll be performing betfair exchange API calls, so we need to login via the [abe
 loginBF("username","password","appkey")
 ```
 
-Having successfully logged onto the exchange API, we can look up the details of the upcoming horse races.
+If you're not interested in programming, you can just launch the interactive app with one simple line.
+
+```r
+# launch interactive app
+launch()
+```
+
+The interactive app is relatively intuitive (at least I hope it is), so we'll return our focus to more manual features of the package. Having successfully logged onto the exchange API, we can look up the details of the upcoming horse races.
 
 ```r
 # eventTypeIds: Horse Racing=7; Football/Soccer= 1; Tennis = 2;
