@@ -5,6 +5,8 @@ betScrapeR
 
 As it relies on web scraping, any changes to the scraped websites will invalidate the whole package. If you spot any bugs, then please raise an [issue](https://github.com/dashee87/betScrapeR/issues) or fork it and start a pull request.
 
+[![betScrapeR.gif](https://s10.postimg.org/on0of88o9/bet_Scrape_R.gif)](https://postimg.org/image/i9blbz3s5/)
+
 Getting Started
 ---------------
 
@@ -30,7 +32,7 @@ Alternatively, you can copy the R files onto your computer and run them all loca
 
 ### Required Packages
 
-[abettor](https://github.com/phillc73/abettor) is a package to perform calls on the Betfair exchange via its API. We will use [abettor](https://github.com/phillc73/abettor) to retrieve exchange data. Please consult its extensive documentation, if you want design a trading strategy based on data derived from `betScrapeR`. As [abettor](https://github.com/phillc73/abettor) is not supported by CRAN, you'll need to install it seperately. Similar to before, just install it directly from RStudio:
+[abettor](https://github.com/phillc73/abettor) is a package to perform calls on the Betfair exchange via its API. We will use [abettor](https://github.com/phillc73/abettor) to retrieve exchange data. Please consult its extensive documentation if you want to design a trading strategy based on data derived from `betScrapeR`. As [abettor](https://github.com/phillc73/abettor) is not supported by CRAN, you'll need to install it seperately. Similar to before, just install it directly from RStudio:
 
 Install from GitLab
 
@@ -52,13 +54,13 @@ This exchange data is combined with the corresponding bookmakers' odds, which ar
 
 ### Tutorial
 
-I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/vignettes/example.Rmd).
+I've created a short tutorial on how to install and use `betScrapeR`, including an example showing how `betScrapeR` can be used to identify arbs. The tutorial can be viewed [here](https://github.com/dashee87/betScrapeR/blob/master/vignettes/example.Rmd).
 
 ### Obtain a Betfair Developer Application Key
 
 Only people with betfair application (app) keys will be able to use this package. Therefore, you may need to obtain a developer app key for the Exchange API. Please follow the instructions [here](https://developer.betfair.com/get-started/#exchange-api). If you intend to use this package in a commercial context (e.g. software design), you need to apply for a [Betfair Software Vendor Licence](https://developer.betfair.com/default/api-s-and-services/vendor-program/vendor-program-overview/). Personal use of the `betScrapeR` package will only require an Exchange API app key.
 
-Just note that there are two types of application keys: delayed and live. The former is free but provides limited API functionality. For example, you can't place bets and market data is returned with a 1-60 second delay. In contrast, live app keys allow full functionality (place bets, market data with no delay, etc), but cost £299. I'm not too familiar with the delayed app key, as the live app key was free when I started out. If parts of the package are incomptible with a delayed app key, then please submit an [issue](https://github.com/dashee87/betScrapeR/issues). Please initially test the package with a delayed app key, bearing in mind your calls will be subject to a delay.
+Just note that there are two types of application keys: delayed and live. The former is free but provides limited API functionality. For example, you can't place bets and market data is returned with a 1-60 second delay. In contrast, live app keys allow full functionality (place bets, market data with no delay, etc), but cost £299. I'm not too familiar with the delayed app key, as the live app key was free when I started out. If parts of the package are incomptible with a delayed app key, then please submit an [issue](https://github.com/dashee87/betScrapeR/issues). Please initially test the package with a delayed app key, bearing in mind your calls will be subject to a slight delay.
 
 Status
 ------
