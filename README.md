@@ -62,7 +62,7 @@ Just note that there are two types of application keys: delayed and live. The fo
 
 This package is under active development and is currently subject to regular updates.
 
-Currently, the package only supports horse racing (not including races in Australia and New Zealand).
+Currently, the package only supports horse racing (not including races in Australia and New Zealand) and tennis.
 
 ### Issues
 
@@ -73,7 +73,6 @@ Web scraping alogirithms are very sensitive to minor website changes (and my cod
 ### Future
 
 * Complete horse racing functionality
-* Move onto tennis
 * Tackle football (one country, one league, one market at a time)
 * Shiny apps
 
