@@ -1,11 +1,3 @@
----
-title: "README"
-output:
-  md_document:
-    variant: markdown_github
-
----
-
 betScrapeR
 =======
 
