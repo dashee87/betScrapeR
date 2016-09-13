@@ -5,6 +5,8 @@ betScrapeR
 
 As it relies on web scraping, any changes to the scraped websites will invalidate the whole package. If you spot any bugs, then please raise an [issue](https://github.com/dashee87/betScrapeR/issues) or fork it and start a pull request.
 
+[![betScrapeR.gif](https://s10.postimg.org/on0of88o9/bet_Scrape_R.gif)](https://postimg.org/image/i9blbz3s5/)
+
 ## Getting Started
 
 ### Install
