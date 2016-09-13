@@ -4,20 +4,27 @@
 \alias{launch}
 \title{Launch betScrapeR shiny app}
 \usage{
-launch()
+launch(sport)
+}
+\arguments{
+\item{sport}{The name of sport for which an app available. Currently, the only
+accepted parameters are "horseRacing" and "tennis".}
 }
 \value{
 No value is returned, but a seperate window for the app is launched.
 }
 \description{
-\code{launch} an interactive visualisation version of betScrapeR. As there's
-currently only one app available (I may do more in the future-
-e.g. tennis app, football app, etc), this function takes no
-arguments. It's structure is taken from a post by
+\code{launch} an interactive visualisation version of betScrapeR.
+ It's structure is taken from a post by
 \href{http://deanattali.com/2015/04/21/r-package-shiny-app/}{Dean Attali}
 }
 \examples{
 \dontrun{
+## Launch horse racing app
+launch("horseRacing")
+## Launch tennis app
+launch("tennis")
+## See a a list of accepted sports
 launch()
 ## Note: An error message will appear on the app if you haven't installed
 ## the dependent packages or if you don't have a valid Betfair session token.

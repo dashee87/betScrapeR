@@ -35,8 +35,8 @@ If successful, this function will return a dataframe. The columns
   integers. This is to cover specials cases where the actuals couldn't be
   scraped from Oddschecker. If SP (starting price) was listed as the price on
   Oddschecker, this is converted to 0; -1 means that nothing was listed for
-  that race from that bookie; and -101 signifies a horse that is a
-  non-runner at Oddschecker but still available on the exchange.
+  that race from that bookie; and -101 signifies a horse that is a non-runner
+  at Oddschecker but still available on the exchange.
 }
 \description{
 \code{horseScraper} returns the current betting odds (exchange & bookies
@@ -62,7 +62,7 @@ a valid session token.
 current odds for an upcoming horse race. To do so, we call listMarketCatalogue
 
 HRaces=listMarketCatalogue(eventTypeIds = "7",marketTypeCodes = "WIN")
-horseScraper(HRaces[1])
+horseScraper(HRaces[1,])
 
 # If we want to return data for numerous races, we'd need to loop the HRaces dataframe
 

@@ -12,7 +12,8 @@ LazyData: true
 Imports:
     rvest (>= 0.3.0),
     DT (>= 0.1.0),
-    shinydashboard
+    shinydashboard,
+    magrittr
 Suggests:
     knitr,
     rmarkdown
