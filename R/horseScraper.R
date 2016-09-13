@@ -41,8 +41,8 @@
 #'   integers. This is to cover specials cases where the actuals couldn't be
 #'   scraped from Oddschecker. If SP (starting price) was listed as the price on
 #'   Oddschecker, this is converted to 0; -1 means that nothing was listed for
-#'   that race from that bookie; and -101 signifies a horse that is a
-#'   non-runner at Oddschecker but still available on the exchange.
+#'   that race from that bookie; and -101 signifies a horse that is a non-runner
+#'   at Oddschecker but still available on the exchange.
 #'
 #' @section Note on \code{race.time} variable: The API returns the event start
 #'   time in UTC. During Daylight Savings Time (DST), we need to an hour
@@ -58,7 +58,7 @@
 #' current odds for an upcoming horse race. To do so, we call listMarketCatalogue
 #'
 #' HRaces=listMarketCatalogue(eventTypeIds = "7",marketTypeCodes = "WIN")
-#' horseScraper(HRaces[1])
+#' horseScraper(HRaces[1,])
 #'
 #' # If we want to return data for numerous races, we'd need to loop the HRaces dataframe
 #'
@@ -100,10 +100,10 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
                       as.data.frame(matrix(betfair.lay,2,length(betfair.horses))))
   colnames(betfair.prices) <- betfair.horses
   row.names(betfair.prices) <- c("Selection ID","Back Price","Back Size","Lay Price","Lay Size")
-  
+
   if( race$event$countryCode=="GB" |  race$event$countryCode == "IE"){
     if(as.Date(race.time)==as.Date(format(as.POSIXct(Sys.time(),format="%Y-%m-%dT%H:%M","UTC"),tz="Europe/London"))){
-      page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime) 
+      page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",formatVenue(race$event$venue),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)
   }else{
     page <- scrapePage(paste0("http://www.oddschecker.com/horse-racing/",substring(race$marketStartTime,1,10),"-",gsub(" ","-",tolower(race$event$venue)),"/",substring(race.time,12,16),"/winner"),numAttempts,sleepTime)}
   }else if(race$event$countryCode=="FR"|race$event$countryCode=="DE"){

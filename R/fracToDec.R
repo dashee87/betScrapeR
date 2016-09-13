@@ -36,6 +36,8 @@ fracToDec <- function(price){
     return(2.0)
   else if(price=="")
     return(-1.0)
+  else if(price=="/")
+    return(-2.0)
   else if(price=="SP")
     return(0.0)
   else(return(eval(parse(text=price))+1))

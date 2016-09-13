@@ -72,7 +72,7 @@ If you're not interested in programming, you can just launch the interactive app
 
 ```r
 # launch interactive app
-launch()
+launch("horseRacing")
 ```
 
 The interactive app is relatively intuitive (at least I hope it is), so we'll return our focus to more manual features of the package. Having successfully logged onto the exchange API, we can look up the details of the upcoming horse races.
