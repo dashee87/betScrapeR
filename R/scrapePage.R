@@ -54,7 +54,7 @@ while( is.null(page) & attempt <= numAttempts ) {
     xml2::read_html(url),
     error=function(cond) {
       message(cond)
-      if(attempt==(numAttempts+1)){
+      if(attempt==(numAttempts)){
         return(data.frame(error="Couldn't scrape page",message=cond$message,call=toString(cond$call)))}
       return(NULL)}
   )
