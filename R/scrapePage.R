@@ -45,7 +45,7 @@
 
 scrapePage <- function(url, numAttempts, sleepTime = 0){
 page <- NULL
-attempt <- 1
+attempt <- 0
 while( is.null(page) & attempt <= numAttempts ) {
   attempt <- attempt + 1
   if(attempt>1)
