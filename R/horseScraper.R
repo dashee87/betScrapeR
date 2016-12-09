@@ -126,7 +126,7 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
   if(length(bookies) == 0){
     return(data.frame(error="No racing data scraped- Is that race covered by OddsChecker?"))
   }
-  horse <- rvest::html_nodes(page,".nm") %>% rvest::html_text()
+  horse <- rvest::html_nodes(page, ".bc .selTxt") %>% html_attr("data-name")
   if(length(horse) == 1){
     horse <- betfair.horses
     odds <- rep(0,length(betfair.horses)*length(bookies))
@@ -139,7 +139,8 @@ horseScraper=function(race, suppress = FALSE, numAttempts = 5, sleepTime = 0){
   checker <- as.data.frame(matrix(odds,length(bookies),length(horse)))
   colnames(checker) <- horse
   rownames(checker) <- bookies
-  checker <- checker[1:(nrow(checker)-2),]
+  # Remove the exchanges
+  checker <- checker[!bookies %in% c("Betfair", "Betdaq", "Matchbook", "Betfair Exchange"),]
   nr.horses=betfair.horses[!betfair.horses %in% horse]
   if(length(nr.horses)!=0){
     checker[,(length(checker)+1):(length(checker)+length(nr.horses))] <- -101
